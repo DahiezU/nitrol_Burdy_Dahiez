@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+
+package Client {
+  actor Guest as g
+  actor Member as m
+}
+
+actor admin as adm
+
+
+
+package Bibliotheque {
+  usecase "Authentification" as Auth
+  usecase "Louer oeuvre" as Rent
+  usecase "Emprunter oeuvre " as Borrow
+  usecase "Review oeuvre" as Review
+  usecase "Verifier et Complete oeuvre" as Verif
+  usecase "Suprimer oeuvre" as Suppr 
+}
+g --|> m
+g--> Auth
+m --> Auth
+m --> Rent
+m --> Borrow
+m --> Review
+adm --> Verif
+adm --> Suppr 
+@enduml

@@ -1,0 +1,131 @@
+@startuml
+
+class Visiteur {
+    - Int id
+    
+    -- Simple getter --
+    + getId()
+
+    -- Simple methods --
+    void createAccount()
+    void login()
+}
+
+
+class Membre extends Visiteur {
+    - Int idMember
+    - String Key
+    # String Username
+    # String Lastname
+    # String Firstname
+    # String mail
+    -- encrypted --
+    - String password
+
+    -- Simple getter --
+    + getIdMember()
+    + getUsername()
+    + getLastname()
+    + getFirstname()
+    + getMail()
+    + getPassword()
+
+    -- Simple Setter --
+    + setUsername()
+    + setLastname()
+    + setFirstname()
+    + setMail()
+    + setPassword()
+
+    -- Profil methods -- 
+    + logout()
+    + modifAccount()
+
+    -- Oeuvre methods --
+    + addOeuvreToCart()
+    + proposeOeuvre()
+    + leaveComment()
+    + searchOeuvre()
+
+}
+
+class Admin extends Membre{
+    --Admin methods --
+    + supprMemberAccount()
+    + supprOeuvre()
+    + approveOeuvre()
+    + editOeuvre()
+    + supprComment()
+
+}
+
+
+class Oeuvre {
+    - Int id
+    # String title
+    # String autors
+    # String genre
+    # Date date
+    # String copyrightType 
+    # Int nbCopie
+    # Bool availability
+ 
+    .. Simple Getter ..
+    + getId()
+    + getTitle()
+    + getAutors()
+    + getGenre()
+    + getDate()
+    + getCopyrightType() 
+    + getNbCopie()
+    + getAvailability()
+
+    .. Simple Setter ..
+    + setTitle()
+    + setAutor()
+    + setGenre()
+    + setDate()
+    + setCopyrightType() 
+    + setNbCopie()
+    + setAvailability()
+
+    ..Simple Methods..
+    + addOeuvre()
+    + supprOeuvre()
+    + leaveComment()
+
+    ..Rent Methods..
+    + rentOeuvre()
+    + borrowOeuvre()
+}
+
+
+Oeuvre --o Membre
+
+
+
+class fond_commun extends Oeuvre {
+    # nbCopie = Nb_membre
+    # copyrightType = libre
+}
+
+class emprunt extends Oeuvre  {
+
+}
+
+class sequestre extends Oeuvre{
+    # nbCopie = 3
+    # copyrightType = sous_droit
+
+    + NextAvailability()
+}
+
+class a_moderer extends Oeuvre {
+    
+}
+
+Admin -o a_moderer 
+Membre -o emprunt
+Membre -o fond_commun
+Membre -o sequestre
+@enduml

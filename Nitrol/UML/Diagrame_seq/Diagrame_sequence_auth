@@ -1,0 +1,71 @@
+
+@startuml
+actor Membre
+participant VitrineBlibliotheque  as Browser
+participant Controle as controle
+database DatabaseMembre as database
+
+
+Membre -> Browser ++ #yellow : createAccount()
+note left: Registration
+Browser -> Browser : load()
+Browser -> Membre --:  display registration interface 
+
+
+
+Membre -> Browser ++ #yellow:  Register
+Browser -> controle ++ #yellow :  existClient()
+controle -> database ++ #yellow: requete()
+
+alt successful case
+
+database -> controle : newMember()
+controle -> Browser  : memberCreated()
+
+Browser -> Membre  :  display succeful registration interface
+
+
+else client already exist
+
+database -> controle -- : newMemberFailed()
+controle -> Browser -- : memberNotCreated()
+Browser -> Membre -- : display client already exist interface
+end
+
+
+Membre -> Browser ++ #yellow :  Click login button
+
+note left: try Login
+Browser -> Browser :  load_log()
+Browser -> Membre --:  display login interface
+
+
+Membre -> Browser ++ #yellow :  login()
+
+Browser -> controle ++ #yellow:  existClient()
+controle -> database ++ #yellow : requete()
+alt successful case
+
+database -> controle : result Requete
+controle -> Browser : loginSuccessful
+
+Browser -> Membre  : display succeful login interface 
+
+note left: Login succesful !
+
+
+else password or username incorrect
+
+database -> controle  --: result requete 
+controle -> Browser --: loginFailed
+
+Browser -> Membre --: display incorrect password or username interface 
+
+
+note left: Login failed !
+
+
+end
+
+
+@enduml
