@@ -1,0 +1,19 @@
+@startuml
+actor admin 
+participant VitrineBlibliotheque as browser
+participant Controle  as controle
+database oeuvreDatabase as dataO
+
+admin-> browser ++ #green : clickOeuvre()
+browser -> admin--: displayOeuvre()
+
+admin-> browser ++ #green : clickDeleteOeuvre()
+browser -> admin-- : displayDeleteMessage()
+admin-> browser : Validate 
+browser -> controle ++ #yellow : Delete()
+controle -> controle : conformDelete()
+controle -> browser -- : displayDeleteMessage()
+browser -> dataO ++ #yellow: deleteOeuvre()
+dataO -> admin-- : conformMessage()
+
+@enduml

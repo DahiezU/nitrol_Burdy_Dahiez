@@ -1,0 +1,22 @@
+@startuml
+actor membre_auth as membre
+participant VitrineBlibliotheque as browser
+participant Controle  as controle
+database membreDatabase as dataM
+
+membre -> browser ++ #green : clickProfil()
+browser -> membre --: displayProfil()
+
+membre -> browser ++ #green : clickDeleteProfil()
+browser -> membre -- : displayDeleteMessage()
+membre -> browser : Validate 
+browser -> controle ++ #yellow : Delete()
+controle -> controle : conformDelete()
+controle -> browser -- : displayDeleteMessage()
+browser -> dataM ++ #yellow: deleteProfil()
+dataM -> membre -- : conformMessage()
+
+
+
+
+@enduml

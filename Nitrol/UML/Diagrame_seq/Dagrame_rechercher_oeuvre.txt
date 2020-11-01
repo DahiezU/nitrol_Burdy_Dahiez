@@ -1,0 +1,35 @@
+@startuml
+actor membre
+participant VitrineBibliothèque
+participant Controle as controle 
+database OeuvreDatabase
+
+
+membre ->  VitrineBibliothèque ++ #green: find Oeuvre
+
+VitrineBibliothèque -> controle ++ #green : service Back
+controle -> OeuvreDatabase ++ #yellow: requete
+
+
+alt Oeuvre Exist
+
+OeuvreDatabase -> controle: Exist
+controle -> VitrineBibliothèque -- : show
+VitrineBibliothèque -> membre : Display
+
+
+else Oeuvre already exist
+
+OeuvreDatabase -> VitrineBibliothèque -- : Not Exist
+
+VitrineBibliothèque -> membre -- : Display error message
+
+
+
+end
+
+
+
+
+
+@enduml
