@@ -1,0 +1,23 @@
+@startuml
+actor membre_auth as membre
+participant VitrineBlibliotheque as browser
+participant Controle  as controle
+database membreDatabase as dataM
+
+membre -> browser ++ #green : clickProfil()
+browser -> membre --: displayProfil()
+
+membre -> browser ++ #green : clickUpdateProfil()
+browser -> membre -- : displayUpdateForm()
+
+membre -> browser ++ #yellow : editProfil()
+browser -> controle ++ #yellow : makeChange()
+controle -> controle : conformChanges()
+controle -> browser -- : displayChanges()
+browser -> dataM ++ #yellow: saveChanges()
+dataM -> membre -- : conformMessage()
+
+
+
+
+@enduml
