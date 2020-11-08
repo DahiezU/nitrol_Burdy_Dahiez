@@ -1,0 +1,48 @@
+@startuml
+actor Admin as admin
+participant VitrineBibliothèque
+participant Controle as controle 
+database OeuvreDatabase
+
+
+admin ->  VitrineBibliothèque ++ #green: Click Oeuvre
+
+VitrineBibliothèque ->  controle ++ #green: take Oeuvre
+
+controle -> OeuvreDatabase ++ #yellow: requete
+
+
+OeuvreDatabase --> controle --: is Ok
+controle --> VitrineBibliothèque -- : show
+VitrineBibliothèque --> admin -- : Display
+
+admin -> VitrineBibliothèque ++ #green : click complete
+
+VitrineBibliothèque --> admin -- : display form
+
+alt Good Format
+
+admin -> VitrineBibliothèque  ++ #green : validate Forma
+VitrineBibliothèque -> controle : update Oeuvre
+controle -> OeuvreDatabase ++ #yellow : requete
+OeuvreDatabase --> VitrineBibliothèque -- : is updated
+VitrineBibliothèque --> admin  --: dispalay updated Oeuvre
+
+else  Bad Format
+
+admin -> VitrineBibliothèque ++ #green : validate Form
+
+
+VitrineBibliothèque --> admin -- : Display error format message
+
+
+
+
+
+end
+
+
+
+
+
+@enduml

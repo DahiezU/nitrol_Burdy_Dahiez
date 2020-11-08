@@ -1,0 +1,52 @@
+@startuml
+actor Admin
+participant VitrineBibliothèque  as browser
+participant Controle as controle 
+database OeuvreDatabase as dataO
+database MembreDatabase as dataM
+
+
+Admin -> browser ++ #green: clickOeuvre()
+browser -> controle ++ #green: verifAdmin()
+controle -> dataM ++ #green : Requete Verif Admin 
+
+alt Is Admin
+dataM --> controle  : Is Admin
+controle -> dataO ++ #green: Requete Oeuvre 
+dataO --> controle   --: exist
+controle --> browser  : dataOeuvre()
+browser --> Admin : display data oeuvre Admin Interface
+
+else Is not Admin
+dataM --> controle -- : Is Not Admin
+controle -> dataO ++ #green: Requete Oeuvre 
+dataO --> controle   --: exist
+controle --> browser -- : dataOeuvre()
+browser --> Admin -- : display data oeuvre Member Interface
+end 
+
+alt Update
+
+Admin -> browser ++ #yellow: clickModifOeuvre()
+browser -> browser : load Form
+browser --> Admin --: display Form 
+
+Admin -> browser ++ #yellow : Validate Form 
+browser -> controle ++ #yellow: updateOeuvre()
+controle -> dataO ++ #yellow: Requete Update Oeuvre
+dataO --> controle --: Update done
+note right : Updated Oeuvre
+controle --> browser --: dataOeuvre()
+browser --> Admin -- : display data oeuvre 
+
+else Delete
+Admin -> browser ++ #yellow : clickDeleteOeuvre()
+browser -> controle ++ #yellow : DeleteOeuvre()
+controle -> dataO ++ #yellow: Requete Delete Oeuvre
+dataO --> controle -- : Delete done
+note right : Deleted Oeuvre
+controle --> browser -- : showMenu()
+browser --> Admin -- : display menu
+end
+
+@enduml

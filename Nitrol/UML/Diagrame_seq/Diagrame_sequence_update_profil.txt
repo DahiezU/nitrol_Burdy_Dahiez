@@ -5,17 +5,17 @@ participant Controle  as controle
 database membreDatabase as dataM
 
 membre -> browser ++ #green : clickProfil()
-browser -> membre --: displayProfil()
+browser --> membre --: displayProfil()
 
 membre -> browser ++ #green : clickUpdateProfil()
-browser -> membre -- : displayUpdateForm()
+browser --> membre -- : displayUpdateForm()
 
 membre -> browser ++ #yellow : editProfil()
 browser -> controle ++ #yellow : makeChange()
-controle -> controle : conformChanges()
-controle -> browser -- : displayChanges()
+controle --> controle : conformChanges()
+controle --> browser -- : displayChanges()
 browser -> dataM ++ #yellow: saveChanges()
-dataM -> membre -- : conformMessage()
+dataM --> membre -- : conformMessage()
 
 
 
