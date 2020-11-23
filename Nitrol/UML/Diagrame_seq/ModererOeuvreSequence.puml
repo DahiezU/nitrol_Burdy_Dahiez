@@ -1,0 +1,61 @@
+Modérer une œuvre numérisée
+	Description : Les bibliothécaires sont avertis des numérisations œuvres à modérer.
+	Acteurs : Bibliothécaire, serveur de la Bibliothèque Nationale de France
+	Prérequis :Le fichier d’une œuvre numérisée doit avoir été déposé et soumis en modération
+	Étapes :
+1.	L’un des bibliothécaires se connecte à l’application.
+2.	L’application lui affiche la liste des fichiers d’œuvres numérisées soumises.
+3.	Le bibliothécaire positionne ses filtres pour ne voir que les œuvres susceptibles de l’intéresser.
+4.	L’application n’affiche que les résultats correspondant aux filtres.
+5.	Le bibliothécaire positionne les tris pour les afficher dans l’ordre voulu.
+6.	L’application affiche les résultats dans l’ordre souhaité.
+7.	Le bibliothécaire sélectionne un fichier d’une œuvre.
+8.	L’application affiche les informations saisies par le membre ayant soumis l’œuvre.
+9.	L’application affiche un lecteur spécifique au type de fichier.
+10.	Le bibliothécaire parcourt l’œuvre.
+11.	Le bibliothécaire complète les informations sur l’œuvre.
+12.	Le bibliothécaire accepte l’œuvre en précisant sa nature.
+13.	@TODO
+	Scénarios alternatifs :
+	Scénarios erreurs :
+
+@startuml
+actor Bibliothécaire
+participant UIManager as UIM 
+participant Application as App
+participant ServeurBibliothèqueNationale as Serveur
+Bibliothécaire -> App  : Connection 
+App -> Bibliothécaire : Affiche notification 
+Bibliothécaire -> App : Selectionne filtres
+App --> Bibliothécaire : Affiche oeuvres correspondantes
+Bibliothécaire -> App : Selectionne Ordre d'affichage 
+App --> Bibliothécaire : Affiche oeuvres dans l'ordre voulu
+Bibliothécaire -> App : Click fichier
+App --> Bibliothécaire : Affiche informations saisies par le membre et le lecteur spécifique
+Bibliothécaire -> Bibliothécaire : Parcours l'oeuvre
+Bibliothécaire -> App : Complete oeuvre 
+Bibliothécaire -> App : Accepte Oeuvre 
+App -> Serveur : Envoie oeuvre dans le serveur 
+
+@enduml
+
+@startuml
+actor Bibliothécaire
+participant UIManager as UIM 
+participant Application as App
+participant ServeurBibliothèqueNationale as Serveur
+Bibliothécaire -> App  : Connection
+App -> Serveur : Cherche oeuvre :
+Serveur --> App :  Prend les oeuvres
+App -> Bibliothécaire : Affiche notification 
+Bibliothécaire -> App : Selectionne filtres
+App --> Bibliothécaire : Affiche oeuvres correspondantes
+Bibliothécaire -> App : Selectionne Ordre d'affichage 
+App --> Bibliothécaire : Affiche oeuvres dans l'ordre voulu
+Bibliothécaire -> App : Click fichier
+App --> Bibliothécaire : Affiche informations saisies par le membre et le lecteur spécifique
+Bibliothécaire -> Bibliothécaire : Parcours l'oeuvre
+Bibliothécaire -> App : Complete oeuvre 
+Bibliothécaire -> App : Accepte Oeuvre 
+App -> Serveur : Envoie oeuvre dans le serveur 
+@enduml

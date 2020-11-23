@@ -1,0 +1,90 @@
+actor Utilisateur_Anonyme as Utilisateur
+participant UIManager as UIM 
+participant RegistrationForm as Form  
+Utilisateur -> Application : Click sur s'inscrire
+Application -> UIM: getRegistrationForm()
+Create Form
+UIM -> Form
+Application -> Utilisateur : Afficher Formulaire
+Utilisateur -> Form : Saisie Données
+Utilisateur -> Application : Envoyer formulaire
+Application -> Application : Envoie Email de Confimation
+Application -> Utilisateur : Confirmation d'inscription
+
+Acteurs : un utilisateur Anonyme, FranceConnect, 
+les différents mandataires de FranceConnecte.
+Étapes :
+1.	L’utilisateur anonyme lance l’application.
+2.	L’application détecte que c’est son premier lancement sur le média.
+3.	L’application affiche une page d’information.
+4.	L’application propose à l’utilisateur de se connecter via FranceConnect.
+5.	L’application propose de créer un compte ne pouvant déposer ou louer des œuvres.
+6.	L’utilisateur choisit de se connecter via FranceConnect.
+7.	L’application propose les différents sites d’identification.
+8.	L’utilisateur choisit l’un des sites.
+9.	L’utilisateur s’authentifie.
+10.	L’application reçoit les informations de connexion.
+11.	L’application affiche toutes les actions, dont celles de dépôt.
+
+	Scénario alternatif:
+	branchement à l’étape 6
+1.	L’utilisateur choisit de créer un nouvel identifiant.
+2.	L’application demande le nom , prénom et date de naissance de l’utilisateur.
+3.	L’utilisateur saisit les informations.
+4.	À partir de ces informations, l’application crée
+•	un identifiant unique garantissant l’anonymat,
+•	une paire de clés, publique et privée, pour enregistrer les opérations qui seront faites.
+5.	L’application transmet l’identifiant et la clé publique au serveur de l’association.
+6.	L’application affiche les actions permises.
+7.	L’application affiche la liste des œuvres dans le domaine public.
+@startuml
+actor Utilisateur_Anonyme as Utilisateur
+participant UIManager as UIM 
+participant RegistrationFormFc as FormFc
+participant RegistrationForm as Form  
+participant Application as App
+participant FranceConnect as Fc 
+
+Utilisateur -> App : Ouvre Application
+App -> App : Detection premier lancé
+App -> Utilisateur : Propose connexion Franceconnect ou creer un compte
+Alt Connexion FranceConnect
+Utilisateur -> App : Click sur connexion avec FranceConnect
+App -> Fc : Connect appli FranceConnect
+Fc -> Utilisateur : Propose les différents sites d’identification.
+Utilisateur -> SitePartenaire : Click sur un site identifiaction Franceconnect
+Create FormFc
+SitePartenaire -> FormFc
+SitePartenaire -> Utilisateur : Affiche formulaire
+Utilisateur -> FormFc : Saisir données 
+Utilisateur -> FormFc : valide formulaire
+FormFc -> SitePartenaire : Transmets le form
+destroy FormFc
+SitePartenaire -> SitePartenaire : Verifie()
+SitePartenaire -> App : Connecter
+App -> Utilisateur : Affiche affiche toutes les actions, dont celles de dépôt.
+Else Creation compte
+Utilisateur -> App : Click sur creation compte 
+App -> UIM : getRegistrationForm()
+Create Form
+UIM -> Form
+App -> Utilisateur : Afficher Formulaire d'inscription
+Utilisateur -> Form :Saisie Info et valide
+Form -> App : Envoie données
+destroy Form
+App -> App : Creation clé unique , identifiant , etc..
+App -> Serveur : Transmission des données
+App -> Utilisateur : Affiche les actions permises
+App -> UIM : afficheOeuvre()
+UIM -> Serveur : Requete oeuvre domaine publique
+Serveur --> App : Liste des oeuvres
+App -> Utilisateur : Affiche liste des oeuvres
+
+End 
+
+
+
+
+
+
+@enduml
